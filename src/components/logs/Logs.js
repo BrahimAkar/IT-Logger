@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LogItem from "./LogItem";
+import Preloader from "../layout/Preloader";
 
 const Logs = () => {
   const [logs, setLogs] = useState([]);
@@ -18,23 +19,7 @@ const Logs = () => {
   };
 
   if (loading) {
-    return (
-      <div className="container center">
-        <div className="preloader-wrapper big active">
-          <div className="spinner-layer spinner-blue-only">
-            <div className="circle-clipper left">
-              <div className="circle"></div>
-            </div>
-            <div className="gap-patch">
-              <div className="circle"></div>
-            </div>
-            <div className="circle-clipper right">
-              <div className="circle"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <Preloader />;
   }
   return (
     <ul className="collection with-header">
