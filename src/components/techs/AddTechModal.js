@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
+import { connect } from "react-redux";
+import { addTechs } from "../../actions/techActions";
 
-const AddTechModal = () => {
+const AddTechModal = ({ addTechs }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
@@ -13,6 +15,7 @@ const AddTechModal = () => {
         completeCallback: () => {},
       });
     } else {
+      addTechs({ firstName, lastName });
       M.toast({
         html: "✅ saved successfully",
         classes: "green text-white rounded",
@@ -68,5 +71,4 @@ const AddTechModal = () => {
   );
 };
 
-
-export default AddTechModal;
+export default connect(null, {addTechs})(AddTechModal);
