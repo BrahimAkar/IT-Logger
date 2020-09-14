@@ -1,18 +1,16 @@
 {
   "logs": [
     {
-      "message": "Fix the wifi",
-      "attention": true,
+      "id": 1,
+      "message": "They see me rolling gggggh",
       "tech": "John Doe",
-      "date": "2020-09-14T01:40:42.422Z",
-      "id": 1
+      "attention": true
     },
     {
-      "message": "Reset the router",
-      "attention": false,
-      "tech": "John Doe",
-      "date": "2020-09-14T01:41:08.734Z",
-      "id": 3
+      "id": 2,
+      "message": "Format windows 210",
+      "tech": "Sara wilson",
+      "attention": false
     }
   ],
   "techs": [

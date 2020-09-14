@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
+import { updateLog, clearCurrent } from "../../actions/logActions";
+import { connect } from "react-redux";
 
-const EditLogModal = () => {
+const EditLogModal = ({ current, updateLog, clearCurrent }) => {
   const [message, setMessage] = useState("");
   const [attention, setAttention] = useState(false);
   const [tech, setTech] = useState("");
+
+  useEffect(() => {
+    if (current) {
+      setMessage(current.message);
+      setAttention(current.attention);
+      setTech(current.tech);
+    }
+  }, [current]);
 
   const onSubmit = () => {
     if (message === "" || tech === "") {
@@ -16,6 +26,9 @@ const EditLogModal = () => {
         },
       });
     } else {
+      const { id } = current;
+      const newLog = { id, message, tech, attention };
+      updateLog(newLog);
       M.toast({
         html: "✅ Logs saved successfully",
         classes: "green text-white rounded",
@@ -29,13 +42,16 @@ const EditLogModal = () => {
       setMessage("");
       setTech("");
       setAttention(false);
+
+      //* CLEAR CURRENT
+      clearCurrent();
     }
   };
 
   return (
     <div id="edit-log-modal" className="modal" style={modalStyle}>
       <div className="modal-content">
-        <h4>Enter System log</h4>
+        <h4>Edit System log</h4>
         <div className="row">
           <div className="input-field">
             <input
@@ -101,4 +117,11 @@ const modalStyle = {
   height: "70%",
 };
 
-export default EditLogModal;
+const mapStateToProps = (state) => ({
+  //* PROP: state: name of state in our root reducer ( index.js)
+  current: state.log.current,
+});
+
+export default connect(mapStateToProps, { updateLog, clearCurrent })(
+  EditLogModal
+);
