@@ -1,0 +1,77 @@
+import {
+  GET_LOGS,
+  SET_LOADING,
+  LOGS_ERROR,
+  ADD_LOG,
+  DELETE_LOG,
+} from "../actions/types";
+
+//* GET LOGS FROM SERVER
+export const getLogs = () => async (dispatch) => {
+  try {
+    setLoading();
+    const res = await fetch("/logs");
+    const data = await res.json();
+    dispatch({
+      type: GET_LOGS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOGS_ERROR,
+      payload: error,
+    });
+  }
+};
+
+//* ADD NEW LOG
+export const addLog = (log) => async (dispatch) => {
+  console.log(log);
+  try {
+    setLoading();
+
+    const res = await fetch("/logs", {
+      method: "POST",
+      body: JSON.stringify(log),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    dispatch({
+      type: ADD_LOG,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOGS_ERROR,
+      payload: error.response.data,
+    });
+  }
+};
+
+//* DELETE LOGS FROM SERVER
+export const deleteLog = (id) => async (dispatch) => {
+  try {
+    setLoading();
+    await fetch(`/logs/${id}`, {
+      method: "DELETE",
+    });
+    dispatch({
+      type: DELETE_LOG,
+      payload: id,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOGS_ERROR,
+      payload: error,
+    });
+  }
+};
+
+// Set loading to true
+export const setLoading = () => {
+  return {
+    type: SET_LOADING,
+  };
+};
